@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber'
 import {OrbitControls, Stars, OrthographicCamera} from "@react-three/drei";
 import Text from './Text';
-import Points from './Points2';
 
 export default function Background() {
 
@@ -28,7 +27,6 @@ export default function Background() {
             <Stars count="250" />
             <ambientLight intensity={0.02} color="orange" />
             <directionalLight color="orange" position={[0, 0, 5]} />
-            <Points />
           </OrthographicCamera>
         </Canvas>
       </Suspense>
