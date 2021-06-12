@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import * as THREE from 'three';
-import { useFrame} from '@react-three/fiber'
-import Segoe from '../../styles/font/SegoeUI_Bold.json';
+import { useFrame } from '@react-three/fiber'
+import Segoe from '../../assets/font/SegoeUI_Bold.json';
 
 const Text = (props) => {
   const mesh = useRef(null)
@@ -24,7 +24,7 @@ const Text = (props) => {
   return (
     <mesh position={props.position} ref={mesh}>
       <textGeometry args={[props.text, textOptions]} />
-      <meshBasicMaterial transparent={true} opacity={0.6} />
+      <meshBasicMaterial transparent={true} opacity={props.opacity} />
     </mesh>
   )
 }
