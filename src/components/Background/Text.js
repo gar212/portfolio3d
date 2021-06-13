@@ -1,7 +1,8 @@
 import React, { useRef } from 'react'
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber'
-import Segoe from '../../assets/font/SegoeUI_Bold.json';
+// import Segoe from '../../assets/font/SegoeUI_Bold.json';
+import Gobold from '../../assets/font/Gobold_Regular.json';
 
 const Text = (props) => {
   const mesh = useRef(null)
@@ -11,7 +12,7 @@ const Text = (props) => {
   })
 
   // parse JSON file with Three
-  const font = new THREE.FontLoader().parse(Segoe);
+  const font = new THREE.FontLoader().parse(Gobold);
 
   // configure font geometry
   const textOptions = {
@@ -22,9 +23,9 @@ const Text = (props) => {
 
 
   return (
-    <mesh position={props.position} ref={mesh}>
+    <mesh rotation={props.rotation} position={props.position} ref={mesh}>
       <textGeometry args={[props.text, textOptions]} />
-      <meshBasicMaterial transparent={true} opacity={props.opacity} />
+      <meshLambertMaterial opacity={props.opacity} />
     </mesh>
   )
 }

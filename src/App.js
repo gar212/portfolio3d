@@ -5,7 +5,7 @@ import FrontInfo from './components/FrontInfo/FrontInfo';
 function App() {
   return (
     <div className="App">
-      <FrontInfo />
+      {/* <FrontInfo /> */}
       <Background />
     </div>
   );
