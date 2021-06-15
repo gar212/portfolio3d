@@ -1,10 +1,11 @@
 import React, { Suspense, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber'
+import * as THREE from 'three';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber'
 import { useSpring, a } from '@react-spring/three'
 import {OrbitControls, Stars, OrthographicCamera} from "@react-three/drei";
 import Text from './Text';
 import GridPlane from './GridPlane';
-import BoxFields from './BoxField';
+import boxTex from '../../assets/images/gridImageTrans.png';
 
 
 export default function Background() {
@@ -17,30 +18,39 @@ export default function Background() {
   //   return null
   // }
 
-const count = 200
-const col = 12
+
+
+const count = 350
+const col = 25
 // Creates new Array for BoxField
-const items = new Array(count).fill().map((_, i) => [
-    [(i % col) * 8 - col * 4, Math.floor(i / col) * 8 - (count / col) * 4, 50 - Math.random() * 100],
+const items = new Array(count).fill().map((pos, rot) => [
+    [(rot % col) * 8 - col * 4, Math.floor(rot / col) * 10 - (count / col) * 4, 50 - Math.random() * 200],
     [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI]
   ])
 
 function BoxField({ position, rotation }) {
-  const bufferRef = useRef();
-  const [{ xy, size }] = useSpring(() => ({ xy: [0, 0], size: 1 }))
-  useFrame((clock, bufferRef)=> {
-    bufferRef = 50 + Math.sin(clock.getElapsedTime()) * 30;
+  const imgTexBox = useLoader(THREE.TextureLoader, boxTex);
+  imgTexBox.wrapS = THREE.RepeatWrapping;
+  imgTexBox.wrapT = THREE.RepeatWrapping;
+  const mesh = useRef()
+  useFrame((state, delta) => {
+    const time = state.clock.getElapsedTime()
+    mesh.current.rotation.y = Math.sin(time / 5)
+    mesh.current.rotation.x = Math.sin(time / 5)
   })
+  const [{ xy, size }] = useSpring(() => ({ xy: [0, 0], size: 2.8 }))
   return (
     <a.mesh
-      ref={bufferRef}
+      ref={mesh} 
       rotation={rotation}
-      position={xy.to((x, y) => [x + position[0], y + position[1] + bufferRef, position[2]])}
-      scale={size.to(s => [s, s, s])}>
-      <boxGeometry args={[1, 1]} />
-      <meshBasicMaterial wireframe={true}  />
+      position={xy.to((x, y) => [x + position[0], y + position[1], position[2]])}
+      scale={size.to(s => [s, s, s])}
+      >
+      <boxGeometry/>
+      <meshLambertMaterial map={imgTexBox} transparent={true} side={THREE.DoubleSide} />
     </a.mesh>
   )
+  
 }
 
   return (
@@ -48,8 +58,8 @@ function BoxField({ position, rotation }) {
       <Suspense fallback={<div>Loading...</ div>}>
         <Canvas >
           <OrbitControls />
-          <OrthographicCamera position={[0,-1,0]} rotation={[-0.3,0,0]}>
-            <GridPlane/>
+          <OrthographicCamera position={[0,-1,1]} rotation={[-0.3,0,0]}>
+            <GridPlane />
               {items.map(([position, rotation], index) => (
                 <BoxField key={index} position={position} rotation={rotation} />
               ))}

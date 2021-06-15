@@ -1,9 +1,6 @@
 import React from 'react'
 import { useSpring, a } from '@react-spring/three'
 
-
-
-
 const BoxField = (props) => {
     const count = 200
     const col = 12
