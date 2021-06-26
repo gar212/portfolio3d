@@ -1,11 +1,11 @@
 import './App.css';
 import Background from './components/Background/Background';
-import FrontInfo from './components/FrontInfo/FrontInfo';
+// import FrontInfo from './components/FrontInfo/FrontInfo';
 
 function App() {
   return (
     <div className="App">
-      {/* <FrontInfo test /> */}
+      {/* <FrontInfo /> */}
       <Background />
     </div>
   );
