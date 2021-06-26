@@ -32,6 +32,8 @@ function BoxField({ position, rotation }) {
   const imgTexBox = useLoader(THREE.TextureLoader, boxTex);
   imgTexBox.wrapS = THREE.RepeatWrapping;
   imgTexBox.wrapT = THREE.RepeatWrapping;
+  const geometryA = <boxGeometry />
+
   const mesh = useRef()
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime()
@@ -46,7 +48,7 @@ function BoxField({ position, rotation }) {
       position={xy.to((x, y) => [x + position[0], y + position[1], position[2]])}
       scale={size.to(s => [s, s, s])}
       >
-      <boxGeometry/>
+      {geometryA}
       <meshLambertMaterial map={imgTexBox} transparent={true} side={THREE.DoubleSide} />
     </a.mesh>
   )
